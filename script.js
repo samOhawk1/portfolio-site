@@ -1,9 +1,9 @@
+// Register GSAP plugins
+gsap.registerPlugin(ScrollToPlugin);
 
-
-// Select all navigation links
+// Smooth scrolling for navigation links
 const navLinks = document.querySelectorAll('.nav-link');
 
-// Add click event listener to each link
 navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault(); // Prevent default anchor behavior
@@ -12,80 +12,88 @@ navLinks.forEach(link => {
         const targetId = this.getAttribute('href');
         const targetSection = document.querySelector(targetId);
 
-        // Smoothly scroll to the target section
+        // Scroll to the target section smoothly
         gsap.to(window, {
-            duration: 1,  // Animation duration in seconds
-            scrollTo: targetSection,  // Scroll to the target section
-            ease: "power2.inOut"  // Easing for smoothness
+            duration: 0.4, // Duration in seconds
+            scrollTo: {
+                y: targetSection, // Scroll to the section
+                offsetY: 70, // Offset for the fixed header height
+            },
+            ease: "power2.inOut", // Easing for smoothness
         });
     });
 });
-//smooth scroll
 
-  // Register GSAP plugins
-  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
-  // Smooth scrolling for navigation links
-  const navi = document.querySelectorAll('.common');
-
-  navi.forEach(link => {
-    link.addEventListener('click', function (e) {
-      e.preventDefault(); // Prevent default anchor behavior
-
-      // Get the target section's ID from the href attribute
-      const targetId = this.getAttribute('href');
-      const targetSection = document.querySelector(targetId);
-
-      // Scroll to the target section smoothly
-      gsap.to(window, {
-        duration: 1.5, // Duration in seconds
-        scrollTo: {
-          y: targetSection, // Scroll to the section
-          offsetY: 50, // Offset for any fixed header
-        },
-        ease: "power2.inOut", // Easing for smoothness
-      });
-    });
-  });
-
-  // Optional: Add a smoother effect for natural scrolling
-  gsap.to("body", {
-    scrollTrigger: {
-      trigger: "body", // The entire body
-      start: "top top", // Start at the top
-      end: "bottom bottom", // End at the bottom
-      scrub: true, // Smoothens natural scroll
-    },
-  });
-
-// script.js
+// Carousel functionality
 const carousel = document.querySelector(".carousel");
-const firstItem = carousel.firstElementChild.cloneNode(true);
-const lastItem = carousel.lastElementChild.cloneNode(true);
+const carouselItems = document.querySelectorAll(".carousel-item");
+const itemWidth = carouselItems[0].offsetWidth; // Get the width of a single item
 
-// Clone first and last items for seamless looping
-carousel.appendChild(firstItem);
-carousel.insertBefore(lastItem, carousel.firstChild);
+// Clone first and last items for truly infinite looping
+// Append a clone of the first item to the end
+const firstItemClone = carouselItems[0].cloneNode(true);
+carousel.appendChild(firstItemClone);
 
-// Adjust carousel animation dynamically
-carousel.style.transition = "none";
-carousel.style.transform = `translateX(-300px)`; // Offset by one item
+// Prepend a clone of the last item to the beginning
+const lastItemClone = carouselItems[carouselItems.length - 1].cloneNode(true);
+carousel.insertBefore(lastItemClone, carousel.firstChild);
 
-let index = 1;
-setInterval(() => {
-  index++;
-  carousel.style.transition = "transform 1s ease-in-out";
-  carousel.style.transform = `translateX(-${index * 300}px)`;
+let currentIndex = 1; // Start at the first actual item (after the cloned last one)
+carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`; // Initial position
 
-  carousel.addEventListener("transitionend", () => {
-    if (index === carousel.children.length - 1) {
-      index = 1;
-      carousel.style.transition = "none";
-      carousel.style.transform = `translateX(-300px)`;
-    } else if (index === 0) {
-      index = carousel.children.length - 2;
-      carousel.style.transition = "none";
-      carousel.style.transform = `translateX(-${index * 300}px)`;
+function slideCarousel() {
+    currentIndex++;
+    carousel.style.transition = "transform 1s ease-in-out";
+    carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+}
+
+// Listen for transition end to reset position for infinite loop
+carousel.addEventListener("transitionend", () => {
+    if (currentIndex === carousel.children.length - 1) { // If it's the cloned first item
+        carousel.style.transition = "none"; // Remove transition for instant jump
+        currentIndex = 1; // Reset to the actual first item
+        carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+    } else if (currentIndex === 0) { // If it's the cloned last item (shouldn't happen with auto-slide but good for manual controls)
+        carousel.style.transition = "none";
+        currentIndex = carousel.children.length - 2; // Reset to the actual last item
+        carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
     }
-  });
-}, 10000); // Adjust timing for auto-slide
+});
+
+// Auto-slide every 5 seconds
+setInterval(slideCarousel, 3000);
+
+// In script.js
+const contactForm = document.querySelector('.contact-form');
+const submitButton = document.getElementById('submit-mail');
+
+contactForm.addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    submitButton.textContent = 'Sending...';
+    submitButton.disabled = true;
+
+    const response = await fetch(event.target.action, {
+        method: 'POST',
+        body: new FormData(event.target), // Formspree uses FormData
+        headers: {
+            'Accept': 'application/json' // Tell Formspree you want JSON response
+        }
+    });
+
+    if (response.ok) {
+        alert('Message sent successfully!');
+        contactForm.reset();
+    } else {
+        const data = await response.json();
+        if (data.errors) {
+            alert('Error: ' + data.errors.map(err => err.message).join(', '));
+        } else {
+            alert('Failed to send message. Please try again.');
+        }
+    }
+
+    submitButton.textContent = 'Submit';
+    submitButton.disabled = false;
+});

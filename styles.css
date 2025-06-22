@@ -1,304 +1,646 @@
+
+/* General Variables (Good for consistency and easy updates) */
+:root {
+    --primary-bg-color: #000;
+    --secondary-bg-color: #343131;
+    --tertiary-bg-color: #0B192C;
+    --accent-color: rgb(234, 86, 86); /* Reddish accent */
+    --button-color: #FF6500; /* Orange button */
+    --text-color: #fff;
+    --font-ruthie: "Ruthie", serif; /* For the logo */
+    --font-monospace: monospace; /* For section headings like About Me */
+    --font-chakra-petch: "Chakra Petch", sans-serif; /* A more modern, techy font */
+    --font-default: 'Times New Roman', Times, serif; /* General body text */
+}
+
+/* Base Styles */
 body {
-    margin: 0px;
-    background-color: black;
-    color: white;
-  }
-  html {
-    scroll-behavior:auto;
-  }
-  
-#abc{
-    font-family: "Ruthie", serif;
+    margin: 0;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    font-family: var(--font-default);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevents horizontal scroll from overflowing content */
+}
+
+html {
+    scroll-behavior: smooth; /* Modern smooth scrolling */
+}
+
+/* --- Header --- */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 30px;
+    background-color: rgba(0, 0, 0, 0.8); /* Slightly transparent for depth */
+    display: flex;
+    justify-content: space-between; /* Pushes logo to left, nav to right */
+    align-items: center;
+    z-index: 1000; /* Ensure header is always on top */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box; /* Crucial: ensures padding is included in the 100% width */
+}
+
+#logo {
+    font-family: var(--font-ruthie);
     font-weight: 400;
     font-style: normal;
-    font-size: 30px;
+    font-size: 2.2rem;
+    color: var(--text-color);
+    white-space: nowrap; /* Prevent logo from wrapping */
+    flex-shrink: 0; /* Prevent logo from shrinking */
 }
-.header{  
-    top:0px;
-    position: fixed;    
-    height: 10vh;
-    width: 100%;
-    background-color: transparent;
-    color: white;
-    padding:10px;
-    font-size: 1.2rem;
-    display: flex;
-    flex-direction: row;
-    z-index: 1;
-    margin-left: 10px;
-    
-}
-.innerheader{
-    position: inherit;
-    right:0;
-}
-.innerheader a{
-    margin-right: 40px;;
-    font-size: 20px;
-    color: white;
-    text-decoration: none;
-}
-.innerheader a:hover{
-   padding: 0.5px 3px;
-   background-color: rgb(234, 86, 86);
-   border-radius: 6px;
-   padding: 3px 4px;
-}
-#home{
-    position: relative;
-    background-color: rgb(7, 0, 0);
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    /* overflow: hidden; */
 
+.navbar {
+    display: flex;
+    flex-wrap: nowrap; /* Prevents links from wrapping by default on desktop */
+    align-items: center;
+    gap: 25px; /* Spacing between navigation links */
 }
-.homeleft{
+
+.navbar a {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease-in;
+    white-space: nowrap; /* Prevent individual links from wrapping */
+    padding: 5px 8px; /* Add some padding for better hover/click area */
+}
+
+.navbar a:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    background-color: rgba(234, 86, 86, 0.2); /* Subtle background for hover */
+    border-radius: 4px;
+}
+
+/* --- Common Section Styles --- */
+.common {
+    min-height: 100vh; /* Ensure sections take full viewport height */
+    padding: 80px 5% 50px; /* Top padding for header, general side/bottom padding */
     display: flex;
     flex-direction: column;
-    justify-content:flex-start;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    position: relative; /* For any relative positioning within sections */
 }
 
+hr {
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    width: 80%;
+    margin: 50px auto;
+}
+
+/* --- Home Section --- */
+.home-section {
+    background-color: var(--primary-bg-color);
+    flex-direction: row; /* Desktop: content and image side-by-side */
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px; /* Account for fixed header */
+    gap: 40px; /* Space between text and image */
+}
+
+.home-content {
+    flex: 1; /* Allows content to grow and shrink */
+    max-width: 600px; /* Limits text width for readability */
+    text-align: center;
+    padding: 20px;
+}
+
+.home-content p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.home-content h1 {
+    font-family: var(--font-default); /* Your original font choice */
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    line-height: 1;
+}
+
+.home-content h1 span {
+    color: var(--accent-color); /* Highlight name */
+}
 
 .wave {
-    animation-name: wave-animation;  /* Refers to the name of your @keyframes element below */
-    animation-duration: 1.5s;        /* Change to speed up or slow down */
-    animation-iteration-count: infinite;  /* Never stop waving :) */
-    transform-origin: 70% 70%;       /* Pivot around the bottom-left palm */
+    animation-name: wave-animation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    transform-origin: 70% 70%;
     display: inline-block;
-    
-  }
-  
-  @keyframes wave-animation {
-      0% { transform: rotate( 0.0deg) }
-     10% { transform: rotate(14.0deg) }  /* The following five values can be played with to make the waving more or less extreme */
-     20% { transform: rotate(-8.0deg) }
-     30% { transform: rotate(14.0deg) }
-     40% { transform: rotate(-4.0deg) }
-     50% { transform: rotate(10.0deg) }
-     60% { transform: rotate( 0.0deg) }  /* Reset for the last half to pause */
+}
+
+@keyframes wave-animation {
+    0% { transform: rotate( 0.0deg) }
+    10% { transform: rotate(14.0deg) }
+    20% { transform: rotate(-8.0deg) }
+    30% { transform: rotate(14.0deg) }
+    40% { transform: rotate(-4.0deg) }
+    50% { transform: rotate(10.0deg) }
+    60% { transform: rotate( 0.0deg) }
     100% { transform: rotate( 0.0deg) }
-  }
-.homeleft{
-    position: relative;
-    top:14vh;
-    height:90vh;
-    width: 50%;
-}
-.homeright{
-    position: relative;
-    top:14vh;
-    height:90vh;
-    width: 50%;
-}
-.homeleft p,h1{
-    text-align: center;
-    font-family:  'Times New Roman';
-    font-size: 2rem;
-}
-.homeleft h1{
-    font-weight: 1  00;
-    font-style: normal;
-    font-size: 60px;
-    padding: 0px;
-    font-size: 5rem;
 }
 
-.homeright #selfimg{
-    position: absolute;
-    left:70px;
-    bottom: 700px;
-    width: 100%;
-    height: 70%;;
-    bottom: 20%;
-    align-self: center;
-    border-radius :60%;
-    background-color: black;
-
-}
-#socialsimg img:hover{
-    padding:0.5px 1px;
-    border-radius: 6px;
-    background-color: red;
-    cursor: pointer;
-}
-#about{
-    position: relative;
-    background-color: rgb(52, 49, 49);
-    height: 100vh;
-    width: 100%;
+.socials-img {
+    margin-top: 30px;
     display: flex;
-    flex-direction: row;
-    /* overflow: hidden; */
+    justify-content: center;
+    gap: 20px;
 }
-.aboutleft{
-    height: 100vh;
-    width:60%;
-    margin-left: 20px;
+
+.socials-img img {
+    width: 40px; /* Fixed size for social icons */
+    height: 40px;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
-.aboutright{
-    height: 100vh;
-    width:40%;
-    display:block;
+
+.socials-img img:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px var(--accent-color));
 }
-.aboutleft h1{
-    text-align: center;
+
+.home-image {
+    flex: 1; /* Allows image container to grow and shrink */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 500px; /* Limits the max width of the image container */
+    position: relative; /* Needed for the pseudo-element glow */
+}
+
+#self-img {
+    /* If this is the hacker silhouette image (from your screenshot) */
+    width: 100%; /* Make the image fill its container */
+    max-width: 400px; /* Max width of the image itself */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensures the entire image is visible */
+    border-radius: 50%; /* Not circular for a silhouette */
+    border: none; /* No border for a silhouette */
+    box-shadow: none; /* No shadow for a silhouette */
+    z-index: 1; /* Ensure image is above pseudo-element glow */
+
+    /* If `feltatti.jpg` is your actual self-image and you want it circular:
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(234, 86, 86, 0.5);
+    */
+    transition: transform 0.3s ease;
+}
+
+#self-img:hover {
+    transform: scale(1.05);
+}
+
+/* Glow effect for the hacker silhouette image */
+.home-image::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 40px); /* Adjust size relative to image container */
+    height: calc(100% - 40px);
+    max-width: 420px; /* Slightly larger than max-width of image */
+    max-height: 420px;
+    border-radius: 50%; /* Make it circular like in your previous screenshot (red ring) */
+    box-shadow: 0 0 30px 10px rgba(255, 0, 0, 0.7); /* Red glowing ring */
+    animation: pulse-glow 2s infinite alternate; /* Optional: add pulse animation */
+    z-index: 0; /* Ensure glow is behind the image */
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 40px 15px rgba(255, 0, 0, 0.9);
+    }
+}
+
+
+/* --- About Section --- */
+.about-section {
+    background-color: var(--secondary-bg-color);
+    flex-direction: row; /* Desktop: content and skills side-by-side */
+    justify-content: space-around;
+    padding-top: 100px; /* Account for fixed header */
+    align-items: flex-start; /* Align content to the top */
+}
+
+.about-content {
+    flex: 2; /* Takes more space than skills */
+    padding: 20px;
+    text-align: left;
+}
+
+.about-content h2 {
     font-size: 3rem;
-    font-family:monospace;
-}
-.aboutleft p{
-    
-    font-size: x-large;
-    text-align:center;
-    font-weight: 100;
-    font-family:monospace;
-    line-height: 40px;
+    font-family: var(--font-monospace);
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--accent-color);
 }
 
-.aboutright h3{
-    margin-top: 40px;
-    text-align: right;
-    margin-right: 40px;
-}
-.aboutright li{
-    list-style: url("./newtraingle.png");
-    list-style-position: inside;
-    line-height: 40px;
-    text-align: center;
-    
+.about-content p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    max-width: 700px; /* Limit paragraph width for readability */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
 }
 
-#projects{
-   
-    height: 100vh;
-    width: 100%;
-   
+.about-skills {
+    flex: 1; /* Takes less space than content */
+    padding: 20px;
+    text-align: right; /* Align heading to the right */
 }
-#projects h1{
-    padding-bottom: 0px;
+
+.about-skills h3 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
 }
-#projects p{
+
+.about-skills ul {
+    list-style: none; /* Remove default list bullets */
+    padding: 0;
+    text-align: center; /* Center the list items for aesthetic */
+}
+
+.about-skills li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px; /* Space for custom bullet */
+}
+
+.about-skills li::before {
+    content: "▶"; /* Custom unicode bullet */
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-size: 0.9em;
+}
+
+
+/* --- Projects Section --- */
+.projects-section {
+    background-color: var(--primary-bg-color);
     text-align: center;
+    padding-top: 100px;
+}
+
+.projects-section h2 {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.projects-section p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
 }
 
 .carousel-container {
-    margin-top: 5%;
-    overflow: hidden;
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .carousel {
+    width: 90%;
+    max-width: 1000px;
+    overflow: hidden; /* Hide overflowing parts of the carousel */
+    margin: 0 auto 30px auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    position: relative;
+}
+
+.carousel {
     display: flex;
-    gap: 20px;
-    animation: slide 15s linear infinite;
-    
-  }
-  
-  .carousel-item {
-    min-width: 300px;
-    flex-shrink: 0;
+    transition: transform 0.5s ease-in-out; /* Smooth transition for slides */
+}
+
+.carousel-item {
+    min-width: 100%; /* Each item takes full width of container */
+    flex-shrink: 0; /* Prevents items from shrinking */
     background: #222;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  .carousel-item img {
-    width: 100%;
-    height: 60vh;   
-    display: block;
-  }
-  
-  /* Smooth sliding effect */
-  @keyframes slide {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-300px * 7)); /* Adjust based on number of items */
-    }
-  }
-  .btnseemore{
-   text-align: center;
-   display: block;
-   padding:7px 13px;
-   background-color: rgb(227, 11, 11);
-   margin-top: 30px;;
-   margin-left: 50%;
-   border-radius: 5px;
-  }
-  .btnseemore:hover{
-    background-color: white;
-    color:black;
-  }
-
-#contact{
-    display: block;
-    height: 100vh;
-    width: 100%;
-    background-color: rgb(0, 0, 0);
 }
-#contact p{
+
+.carousel-item img {
+    width: 100%;
+    height: 450px; /* Fixed height for project images on desktop */
+    object-fit: cover; /* Cover the area, crop if necessary */
+    display: block;
+}
+
+.btn-seemore {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: var(--button-color);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Indicate it's clickable */
+}
+
+.btn-seemore:hover {
+    background-color: var(--text-color);
+    color: var(--primary-bg-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 101, 0, 0.5);
+}
+
+/* --- Contact Section --- */
+.contact-section {
+    background-color: var(--primary-bg-color);
+    padding-top: 100px;
+}
+
+.contact-section h2 {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
     text-align: center;
 }
 
-#contact div{
-    border-radius: 5px;
-    margin: auto;
-    height: 100vh;
-    width: 50vw;
-    background-color:#0B192C;
+.contact-section p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.contact-form {
+    background-color: var(--tertiary-bg-color);
+    border-radius: 10px;
+    padding: 40px;
+    width: 90%;
+    max-width: 600px;
     display: flex;
-    justify-content: center;
-    overflow: hidden;
     flex-direction: column;
+    gap: 20px; /* Space between form elements */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
-#contact div input{
-    background-color: #253a52;
+
+.contact-form label {
+    font-size: 1.1rem;
+    margin-bottom: 5px; /* Space between label and input */
+    color: var(--text-color);
+}
+
+.form-input,
+.form-textarea {
+    background-color: #253a52; /* Darker blue for inputs */
     border-radius: 6px;
-    border-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 15px;
+    color: var(--text-color);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+    resize: vertical; /* Allow vertical resizing for textarea */
 }
 
-.ipt{
-    margin:auto;
-    width: 85%;
-    height:10%;
-    margin-bottom: 5%;
-}
-.lbl1{
-    margin-top: 6%;
-}
-label{
-    margin-left: 7%;
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.msgipt{
-    margin:auto;
-    height: 50%;
-    width: 85%;;
-    margin-bottom: 5%;
+.form-textarea {
+    min-height: 120px;
 }
-.msgipt::placeholder{
-    font-weight: 800;
-    font-style: italic;
-    text-decoration:dotted;
-    text-align: left;
-}
-#submitmail{
-    border-radius: 3px;
-    background-color:#FF6500;
-    border-color: transparent;
-    margin: auto;
-    height: 50px;
-    width: 90px;
-    font-size:20px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 2%;
 
+#submit-mail {
+    border-radius: 5px;
+    background-color: var(--button-color);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    font-family: var(--font-default);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start; /* Align button to start within the column */
+    margin-top: 10px;
 }
-#submitmail:hover{
-    transform: translate(-2px,-3px);
-    background-color: #d1ac94;
+
+#submit-mail:hover {
+    background-color: #d1ac94; /* Lighter shade on hover */
+    color: var(--primary-bg-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 101, 0, 0.5);
 }
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-top: 50px;
+}
+
+/* --- Media Queries --- */
+
+/* For smaller desktops and large tablets (max-width 1200px) */
+@media (max-width: 1200px) {
+    .header {
+        padding: 15px 20px;
+    }
+    .navbar {
+        gap: 20px;
+    }
+    .navbar a {
+        font-size: 1.1rem;
+    }
+
+    .home-content h1 {
+        font-size: 3.5rem;
+    }
+    #self-img {
+        max-width: 300px;
+    }
+    .home-image::after {
+        max-width: 320px;
+        max-height: 320px;
+    }
+    .about-content h2, .projects-section h2, .contact-section h2 {
+        font-size: 2.5rem;
+    }
+    .about-skills h3 {
+        font-size: 1.5rem;
+    }
+    .carousel-item img {
+        height: 350px;
+    }
+}
+
+/* For tablets (max-width 768px) */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack logo and nav vertically */
+        padding: 10px 15px;
+        align-items: flex-start; /* Align logo to the left */
+    }
+    #logo {
+        margin-bottom: 10px;
+    }
+    .navbar {
+        width: 100%; /* Make navbar take full width */
+        justify-content: space-around; /* Distribute links evenly */
+        flex-wrap: wrap; /* Allow links to wrap if needed */
+        gap: 10px;
+    }
+    .navbar a {
+        font-size: 1rem;
+        padding: 5px;
+    }
+
+    .home-section, .about-section {
+        flex-direction: column; /* Stack content vertically */
+        text-align: center;
+        padding-top: 80px; /* Adjust padding for smaller header */
+    }
+
+    .home-image {
+        margin-top: 40px;
+    }
+    #self-img {
+        max-width: 250px;
+    }
+    .home-image::after {
+        max-width: 270px;
+        max-height: 270px;
+    }
+
+    .home-content h1 {
+        font-size: 3rem;
+    }
+    .home-content p {
+        font-size: 1.2rem;
+    }
+
+    .about-content, .about-skills {
+        width: 100%;
+        padding: 15px;
+        text-align: center; /* Center content in about section */
+    }
+    .about-content p {
+        text-align: center; /* Center paragraphs in about section */
+    }
+    .about-skills ul {
+        text-align: center;
+    }
+    .about-skills li::before {
+        left: 30%; /* Adjust bullet position for centering */
+    }
+
+    .carousel-container {
+        width: 95%;
+    }
+    .carousel-item img {
+        height: 300px;
+    }
+
+    .contact-form {
+        padding: 30px;
+        width: 100%;
+    }
+    .form-input, .form-textarea {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+    }
+    #submit-mail {
+        align-self: center; /* Center submit button */
+    }
+}
+
+/* For mobile phones (max-width 480px) */
+@media (max-width: 480px) {
+    #logo {
+        font-size: 1.8rem;
+    }
+    .header {
+        padding: 10px 10px;
+    }
+    .navbar {
+        justify-content: space-between;
+        gap: 5px;
+    }
+    .navbar a {
+        font-size: 0.9rem;
+        padding: 5px;
+    }
+
+    .home-content h1 {
+        font-size: 2.5rem;
+    }
+    .home-content p {
+        font-size: 1rem;
+    }
+    .socials-img img {
+        width: 30px;
+        height: 30px;
+    }
+    #self-img {
+        max-width: 200px;
+    }
+    .home-image::after {
+        max-width: 220px;
+        max-height: 220px;
+    }
+
+    .about-content h2, .projects-section h2, .contact-section h2 {
+        font-size: 2rem;
+    }
+    .about-content p {
+        font-size: 1rem;
+    }
+    .about-skills h3 {
+        font-size: 1.3rem;
+    }
+    .about-skills li {
+        font-size: 1rem;
+    }
+    .about-skills li::before {
+        left: 20%; /* Further adjust bullet position */
+    }
+
+    .carousel-item img {
+        height: 200px; /* Smaller height for mobile */
+    }
+    .btn-seemore {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+
+    .contact-form {
+        padding: 20px;
+        gap: 15px;
+    }
+    .form-input, .form-textarea {
+        padding: 8px 10px;
+    }
+    .form-textarea {
+        min-height: 100px;
+    }
+    #submit-mail {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+```
